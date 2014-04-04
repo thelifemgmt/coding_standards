@@ -1,7 +1,7 @@
 Coding Standards & Styleguide
 ================
 
-Welcome to my coding standards & styleguide. This is just a reference for the best practices I try to follow.
+Welcome to my coding standards & styleguide. This is based off the coding standards I wrote for the company I work for. I'm including it here as a reference to the best practices I try to follow. 
 
 <b>References</b>
 
@@ -38,7 +38,6 @@ Example:
 
 
 
-
 IDs vs Classes
 ---
 
@@ -46,7 +45,6 @@ Using IDs offers no benefit over classes and tends to cause specificity issues a
 
 * Classes should only be used for CSS hooks
 * You should never use IDs
-
 
 
 
@@ -233,15 +231,6 @@ Example:
 			}
 		}
 	} // nav
-	
-	
-	
-Sass Mixins
----
-
-We recommend using the RV Sass mixins included in the sass/globals folder. This will make it much easier to keep all team members familiar with our mixin syntax as well as not having to require dependencies based on other libraries. For this reason, we do not recommend the use of external libraries such as Bourbon or Compass. If there is a certain mixin you need or want to use in your project, we recommend adding it into a partial in the sass/globals folder for your project only. The RV Sass mixins we recommend are in the new site spinup or can be found at the link below.
-
-https://github.com/RVCreative/sass-mixins
 
 
 
@@ -249,24 +238,23 @@ Folder Organization
 ---
 
 
-HTML Example:
+Example:
 	
-	data
-	├── landing_pages
-	|	└── default
-	|		└── includes
-	|			├── banners
-	|			├── globals
-	|			|	├── _header.php
-	|			|	├── _masthead.php
-	|			|	└── _footer.php
-	|			└── heroes
+	root
+	├── //files
+	|
+	├── includes
+	|	├── _header.php
+	|	├── _masthead.php
+	|	└── _footer.php
 	|
 	└── assets
-		└── css
+		├── css
 		|	└── compiled.css
+		|
 		├── images
 		|	└── //files
+		|
 		├── js
 		|	├──	app.js
 		|	├──	library
@@ -275,31 +263,34 @@ HTML Example:
 		|	|	├──	clycle.js
 		|	|	└──	placeholder.js
 		|	└── functions.js
+		|
 		├── sass
 		|	└── compiled.scss
-		|		└──	//files (see below)
-		└── fonts
-	
-
-
-Sass Example:
-
-	compiled.scss
-	└── project
-		├──	_project-fonts.scss
-		├──	_project-styles.scss
-		├──	_project-variables.scss
+		|		└── project
+		|			├── _project-fonts.scss
+		|			├── _project-styles.scss
+		|			├── _project-variables.scss
+		|			|
+		|			├── components
+		|			|	├── _buttons.scss
+		|			|	├── _lists.scss
+		|			|	└── _inputs.scss
+		|			|
+		|			├── grid
+		|			|	└── _grid.scss
+		|			|
+		|			├── partials
+		|			|	├── _header.scss
+		|			|	├── _masthead.scss
+		|			|	└── _footer.scss
+		|			|	
+		|			└── globals
+		|				├── _mixins.scss
+		|				├── _typography.scss
+		|				├── _reset.scss
+		|				└── _base.scss
 		|
-		├──	sections
-		|	├──	_header.scss
-		|	├──	_masthead.scss
-		|	└──	_footer.scss
-		|	
-		└──	globals
-			├──	_mixins.scss
-			├──	_typography.scss
-			├──	_reset.scss
-			└──	_base.scss
+		└── fonts
 
 
 
