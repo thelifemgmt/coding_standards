@@ -1,359 +1,247 @@
-Coding Standards & Styleguide
-================
+# Coding Standards
 
-Welcome to my coding standards & styleguide. This is based off the coding standards I wrote for the company I work for. I'm including it here as a reference to the best practices I try to follow. 
+Welcome to my coding standards & styleguide. This is based off the coding standards I wrote for the company I work for. I'm including it here as a reference to the best practices I try to follow.
 
-<b>References</b>
-
-* https://github.com/styleguide/css
-* http://google-styleguide.googlecode.com/svn/trunk/htmlcssguide.xml
-* http://thesassway.com/advanced/modular-css-naming-conventions
+**(Still in progress)**
 
 
 
-HTML Formatting Rules
----
+## General Formatting Rules
 
-* Always indent a full tab (4 spaces)
-* Always indent every child element
-* Always comment the end of a div block after the closing div tag <code></div><!--/.classname--></code>
-* Always use <code>"</code> (double quotes), not <code>'</code> (single quotes) in your html
-* Always include an alt attribute on img tags <code>alt=""</code>
-* Never close self-closing tags such as hr, br, img, or input
+See / use .editorconfig file. Using this common file will prevent whitespace bounce.
+
+* indent_style = space
+* indent_size = 2
+* end_of_line = lf
+* charset = utf-8
+* trim_trailing_whitespace = true
+* insert_final_newline = true
+
+
+
+## HTML Formatting Rules
+
+General formatting rules plus..
+
+* Paragraphs of text should always be placed in a `<p>` tag. Never use multiple `<br>` tags
+* Items in list form should always be in `<ul>`, `<ol>`, or `<dl>`
+* Every form input that has text attached should utilize a `<label>` tag. Especially radio or checkbox elements
+* `<label>` tags associated with an input should have a `for` attribute, or the associated input an `aria-labelledby` attribute.
+* Always use `"` (double quotes), not `'` (single quotes) in your html
+* Use typographic quotes in visible text `&lsquo;`, `&rsquo;`, `&ldquo;` and `&rdquo;` (&lsquo;, &rsquo;, &ldquo;, &rdquo;).
+* Always include an `alt=""` attribute on `<img>` tags
+* Avoid trailing slashes in self-closing elements. such as `<br>`, `<hr>`, `<img>`, `<meta>` and `<input>`
+* Don't set tabindex manually. Rely on the browser to set the order
 * Never use inline css or inline javascript
 
-Example:
-
-	This is an example of proper syntax
-	
-	<div class="content">
-		<div class="block">
-			<p>Lorem ipsum</p>
-			<img src="avatar.jpg" alt="Avatar">
-			<hr>
-			<input type="text">
-			<br>
-		</div><!--/.block-->
-	</div><!--/.content-->
+```html
+<div class="element">
+  <img class="element__avatar" src="avatar.jpg" alt="Avatar">
+  <p class="element__content">This is a paragraph of text.</p>
+  <ul class="element__list">
+    <li class="element__list-item">List Item</li>
+    <li class="element__list-item">List Item</li>
+    <li class="element__list-item">List Item</li>
+  </ul>
+</div>
+```
 
 
 
-IDs vs Classes
----
+## Lean Markup
 
-Using IDs offers no benefit over classes and tends to cause specificity issues and having to write non-modular, non-reusable CSS. For that reason, we recommend sticking to using classes for CSS styling hooks.
+Avoid unnecessarily wrapping elements in a parent element when possible. This creates extra bloat and over-specificity in the CSS.
 
-* Classes should only be used for CSS hooks
-* You should never use IDs
+```html
+<!-- Bad -->
+<div class="headline--bad">
+  <h1>Headline</h1>
+</div>
 
-
-
-Type Attributes
----
-
-* Do not add <code>type="text/css"</code> to stylesheet link tags
-* Do not add <code>type="text/javascript"</code> to javascript script tags
-
-Example:
-
-	This is an example of proper syntax
-
-	<link rel="stylesheet" href="style.css">
-	<script src="js/script.js"></script>
-	
-	
-	
-File Naming
----
-
-* Always use <code>-</code> (hyphen) to separate words in a file name
-* Always name files starting with the most general term, working your way up to a specific term <code>bg-subpage-hero-price-burst.jpg</code>
-* Always use <code>_</code> (underscore) to prefix php includes and scss partials
-
-Example:
-
-	logo-main.jpg
-	bg-subpage-sidebar.png
-	_urgency-banner.php
-	pricing-guide.html
-	_navigation.scss
+<!-- Good -->
+<h1 class="h1 headline--good">Headline</h1>
+```
 
 
 
-CSS Formatting Rules
----
+## IDs vs Classes
 
-* Always put a space after <code>:</code> (colon) in property declarations
-* Always put a space before <code>{</code> (curly brace) in rule declarations
-* Use hex color codes <code>#000</code> unless using rgba
-* Use lower case letters in your hex color codes <code>#f1d2e3</code>
-* Do not add a leading 0 in front of values that are less than 1. <i>Bad:</i> <code>0.5</code>
-* Never add units after 0 values. <i>Bad:</i> <code>0px</code>
-* Always include a <code>;</code> (semicolon) after the last property declaration
-* Always use <code>'</code> (single quote), not <code>"</code> (double quote) in your CSS
-* Always include a line-break in-between rule declarations
-* Always write your CSS multi-line, and never single line. <i>Bad:</i> <code>.format {color: #000; line-height: 2;}</code>
-* Always put each rule declaration on its own line when extending property declarations. <i>Bad:</i> <code>h1, h2, h3 {}</code>
+Using IDs offers no benefit over classes and tends to cause specificity issues and having to write non-modular, non-reusable CSS. Always use classes for CSS styling hooks.
 
-Example:
 
-	This is an example of proper syntax
-	
-	.formatting-rules {
-		color: #000;
-		background: rgba(0,0,0,.5);
-		margin: 10px 0;
-	}
-	
-	.formatting-rules:after {
-		content: '';
-	}
-	
-	h1,
-	h2,
-	h3 {
-		padding: 5px;
-	}
-	
 
-	
-Class Naming Conventions
----
+## Type Attributes
 
-* Only use <code>-</code> (hyphen) to separate words in class names
-* Never use <code>_</code> (underscore) in class names
+* Do not add `type="text/css"` to stylesheet link tags
+* Do not add `type="text/javascript"` to javascript script tags
+
+```html
+<link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
+```
+
+
+
+## Asset File Naming
+
+* Always use `-` (hyphen) to separate words in an asset file name
+* Always name asset files starting with the most general term, working your way up to a specific term `bg-subpage-hero-large.jpg`
+
+**Note:** Capitalization on file paths can look nice but causes problems across different operating systems.
+
+
+
+## Sass/CSS Formatting Rules
+
+#### CSS Formatting
+
+* Always put a space after the `:` (colon) in property declarations
+* Always put a space before the `{` (curly brace) in rule declarations
+* Use hex color codes `#000` unless using rgba
+* Use lower case letters in your hex color codes `#f1d2e3`
+* Do not add a leading 0 in front of values that are less than 1. **Bad:** `0.5`
+* Never add units after 0 values. **Bad:** `0px`
+* Always include a `;` (semicolon) after the last property declaration
+* Always use `'` (single quote), not `"` (double quote) in your CSS
+* Always write your CSS multi-line, and never single line. **Bad:** `.format {color: #000; line-height: 2;}`
+* Always put each selector on its own line when extending property declarations. **Bad:** `.h1, .h2, .h3 {}`
+* Avoid using selectors like, `>`, `~`, or `+` when possible. This creates overly specific, non-reusable scope in the CSS output
+
+#### Sass Formatting
+
+* Besides pseudo classes, always avoid nesting elements when possible. Nesting creates over-specificity in the CSS output
+* Always name SCSS partials with a leading `_` (underscore)
+* When importing a partial, do not include the `.scss` extension or leading `_`
+* Always use `//`, and never `/* */`, for css comments
+* Always inline comment on property declarations that are needed for a special circumstance
+* Always declare any variables at the top of the SCSS file
+* Always use variables when a value is used multiple times
+* Lint your Sass
+
+```SCSS
+@import 'partial';
+
+// Variables
+$variable: #000;
+
+// Element
+.element {
+	color: $variable;
+	background-color: rgba(0,0,0,.5);
+	margin: 10px 0;
+
+  &:after {
+    content: ''; // This is a special circumstance comment
+  }
+}
+
+.element__child {
+  border: 2px solid #a1b2c3;
+}
+
+// Headlines
+.h1,
+.h2,
+.h3 {
+	font-size: 24px;
+  line-height: 1.2;
+}
+```
+
+**Note:** Included is a .scss-lint.yml file that you can add to your build and editor.
+
+
+
+## Class Naming Conventions
+
+* Separate words in a class name with a single `-` (hyphen)
+* Never use a single `\_` (underscore) to separate words in a class name
 * Never use camel-casing in class names
-* Always be descriptive when choosing your class name <code>class="button"</code>
-* Never abbreviate common names like button, header, footer, etc. <i>Bad:</i> <code>btn, hdr, ftr</code>
-* When using a class modifier, always use a descriptive prefix such as <code>is- has- with-</code>
+* Always be descriptive when choosing your class name `class="button"`
+* Never abbreviate common names like button, header, footer, etc. **Bad:** `btn, hdr, ftr`
+* Always use a `is-` prefix for state rules that are shared between CSS and JS
 
-Example:
+```CSS
+.menu {
+	...
+}
 
-	This is an example of proper syntax
-	
-	.button {
-		// styles
-	}
-	
-	.button.is-hidden {
-		// styles
-	}
+.menu.is-open {
+	...
+}
+```
 
 
+## BEM Naming Convention
 
-Pixels vs Ems
----
+BEM, or Block Element Modifier is a methodology, that helps you to achieve reusable components and code sharing in the front-end.
 
-* Always use <code>px</code> for font-size
+* Bullets coming soon...
+
+```CSS
+.form {}
+.form--signup {}
+.form__input {}
+.form__input--select {}
+.form__submit {}
+```
+
+```HTML
+<form class="form form--signup" action="" method="">
+  <input class="form__input" type="text">
+  <select class="form__input--select">
+    <option></option>
+    <option></option>
+  </select>
+  <input class="form__submit" type="submit" value="Submit">
+</form>
+```
+
+**Reference:** http://getbem.com/naming/
+
+
+
+## Pixels vs Ems
+
+* Always use `px` for font-size
 * Always use unit-less value for line-height, unless you are vertically centering single-line text
 
-Example:
-
-	This is an example of proper syntax
-	
-	.formatting-rules {
-		font-size: 16px;
-		line-height: 2;
-	}
-	
-
-
-Javascript HTML Hooks
----
-
-* Always use a new class with a <code>js-</code> prefix when adding a hook in your html for javascript
-* Never use the <code>js-</code> hook as a styling hook in your CSS
-* Always use <code>'</code> (single quote), not <code>"</code> (double quote) in your Javascript
-
-Example:
-
-	This is an example of proper syntax
-	
-	<div class="menu-button js-menu-button">
-		// stuff
-	</div><!--/.menu-button-->
-	
-	<select class="js-date-picker">
-		<option>option</option>
-		<option>option</option>
-	</select>
-	
-	
-	
-PHP Formatting Rules
----
-
-* Always name your php partial with a leading underscore and a php extension <code>'_filename.php'</code>
-* Do not name your php include with an html extenstion <code>'_urgency-banner.html'</code>
+```CSS
+.element {
+	font-size: 16px;
+	line-height: 2;
+}
+```
 
 
 
-Sass Formatting Rules
----
+## Javascript HTML Hooks
 
-* Never nest deeper than 3 levels unless absolutely necessary
-* Always name your Scss partial with a leading <code>_</code> (underscore)
-* Do not include the .scss extension in @import partial
-* Use <code>//</code> for css comments
-* Never use <code>/* */</code> for css comments
-* Always inline comment on property declarations that are needed for a certain reason
-* Always declare any variables at the top of the scss file
+* Always use a new class with a `js-` prefix when adding a hook in your html for javascript
+* Never use the `js-` hook as a styling hook in your CSS
 
-Example:
-	
-	// Imports
-	@import '_nav-partial';
-	
-	// Variables
-	$color: #000;
-	
-	// Nav
-	nav {
-		
-		ul {
-			// styles
-		}
-		
-		li {
-			position: absolute; // this is a comment about why this needs to be positioned absolute
-			color: $color;
-			
-			&:first-child {
-				// styles
-			}
-		}
-		
-		a {
-			// styles
-			
-			&:hover {
-				// styles
-			}
-		}
-	} // nav
+```HTML
+<div class="button button--primary js-menu-button">
+	...
+</div>
+
+<select class="input input--select js-date-picker">
+	<option>option</option>
+	<option>option</option>
+</select>
+```
 
 
 
-Folder Organization
----
+## Javascript Lint
 
-
-Example:
-	
-	root
-	├── //files
-	|
-	├── includes
-	|	├── _header.php
-	|	├── _masthead.php
-	|	└── _footer.php
-	|
-	└── assets
-		├── css
-		|	└── compiled.css
-		|
-		├── images
-		|	└── //files
-		|
-		├── js
-		|	├──	app.js
-		|	├──	library
-		|	|	└──	jquery.js
-		|	├── plugins
-		|	|	├──	clycle.js
-		|	|	└──	placeholder.js
-		|	└── functions.js
-		|
-		├── sass
-		|	└── compiled.scss
-		|		└── project
-		|			├── _project-fonts.scss
-		|			├── _project-styles.scss
-		|			├── _project-variables.scss
-		|			|
-		|			├── components
-		|			|	├── _buttons.scss
-		|			|	├── _lists.scss
-		|			|	└── _inputs.scss
-		|			|
-		|			├── grid
-		|			|	└── _grid.scss
-		|			|
-		|			├── partials
-		|			|	├── _header.scss
-		|			|	├── _masthead.scss
-		|			|	└── _footer.scss
-		|			|	
-		|			└── globals
-		|				├── _mixins.scss
-		|				├── _typography.scss
-		|				├── _reset.scss
-		|				└── _base.scss
-		|
-		└── fonts
+JSLint is a static code analysis tool used in development for checking if JavaScript source code complies with coding rules. See the included `.jscsrc` and `.jshintrc` file for more info.
 
 
 
-Object Oriented / Modular CSS
----
+## Learn More
 
-Modular CSS is all about learning to think about your CSS in terms of objects, or better yet, modules. Modules are small little chunks of reuseable functionality. The idea is to write a small bit of code that encourages code reuse and faster, more efficient stylesheets that are easier to add to and maintain.
-
-First lets look at a non-modular example:
-
-Non-modular Example:
-
-	.content-box {
-		width: 200px;
-		height: 200px;
-		background: #fff;
-	}
-	
-	.bordered-content-box {
-		width: 200px;
-		height: 200px;
-		border: 5px solid #000;
-		background: #fff;
-	}
-	
-	<div class="content-box">
-		//stuff
-	</div><!--/.content-box-->
-	
-	<div class="bordered-content-box">
-		//stuff
-	</div><!--/.bordered-content-box-->
-	
-As you can see, we have 2 content boxes, 1 with a border, and 1 without. Because we wrote this in a non-modular way, we had to write specific CSS for each box just to add a border to the second box. This obviously works but also adds pointless bloat to the stylesheet.
-
-Now lets rewrite this in a modular, object oriented way:
-
-Modular Example:
-	
-	.content-box {
-		width: 200px;
-		height: 200px;
-		background: #fff;
-	}
-	
-	.with-border {
-		border: 5px solid #000;
-	}
-	
-	<div class="content-box">
-		//stuff
-	</div><!--/.content-box-->
-	
-	<div class="content-box with-border">
-		//stuff
-	</div><!--/.content-box-->
-
-You will now see we achieved the same effect just by creating a modifier class to add the border to the content box. This reduces needless code in the stylesheet, and gives us a 'with-border' modifier class that we can now use on any object in the markup.
-
-This is just a very simple example of how you should write your css in an object oriented / modular way. We would encourage you to continue to learn more about object oriented / modular css by visiting these sites below.
-	
-<b>Learn more</b>
-
-* http://coding.smashingmagazine.com/2011/12/12/an-introduction-to-object-oriented-css-oocss/
-* http://www.creativebloq.com/css3/create-modular-and-scalable-css-9134351
+* http://getbem.com/
+* http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/
+* https://github.com/styleguide/css
 * http://thesassway.com/advanced/modular-css-naming-conventions
