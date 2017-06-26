@@ -2,8 +2,7 @@
 
 Welcome to my coding standards & styleguide. This is based off the coding standards I wrote for the company I work for. I'm including it here as a reference to the best practices I try to follow.
 
-**(Still in progress)**
-
+**(Always in progress)**
 
 
 ## General Formatting Rules
@@ -16,8 +15,6 @@ See / use .editorconfig file. Using this common file will prevent whitespace bou
 * charset = utf-8
 * trim_trailing_whitespace = true
 * insert_final_newline = true
-
-
 
 ## HTML Formatting Rules
 
@@ -54,12 +51,12 @@ Avoid unnecessarily wrapping elements in a parent element when possible. This cr
 
 ```html
 <!-- Bad -->
-<div class="headline--bad">
+<div class="headline-bad">
   <h1>Headline</h1>
 </div>
 
 <!-- Good -->
-<h1 class="h1 headline--good">Headline</h1>
+<h1 class="h1 headline headline--good">Headline</h1>
 ```
 
 
@@ -97,11 +94,12 @@ Using IDs offers no benefit over classes and tends to cause specificity issues a
 
 * Always put a space after the `:` (colon) in property declarations
 * Always put a space before the `{` (curly brace) in rule declarations
+* Always include a `;` (semicolon) after the last property declaration
 * Use hex color codes `#000` unless using rgba
+* Reduce hex color codes to 3 characters when possible. **Bad:** `#000000` `#ffffff`
 * Use lower case letters in your hex color codes `#f1d2e3`
 * Do not add a leading 0 in front of values that are less than 1. **Bad:** `0.5`
 * Never add units after 0 values. **Bad:** `0px`
-* Always include a `;` (semicolon) after the last property declaration
 * Always use `'` (single quote), not `"` (double quote) in your CSS
 * Always write your CSS multi-line, and never single line. **Bad:** `.format {color: #000; line-height: 2;}`
 * Always put each selector on its own line when extending property declarations. **Bad:** `.h1, .h2, .h3 {}`
@@ -114,21 +112,22 @@ Using IDs offers no benefit over classes and tends to cause specificity issues a
 * When importing a partial, do not include the `.scss` extension or leading `_`
 * Always use `//`, and never `/* */`, for css comments
 * Always inline comment on property declarations that are needed for a special circumstance
-* Always declare any variables at the top of the SCSS file
+* Always declare any variables at the top of the SCSS file. If those variables are used across multiple files, always declare those variables in a global `_settings.scss` file
 * Always use variables when a value is used multiple times
+* Always separate words in a variable with a `-` (hyphen)
 * Lint your Sass
 
 ```SCSS
 @import 'partial';
 
 // Variables
-$variable: #000;
+$variable: #333;
 
 // Element
 .element {
-	color: $variable;
-	background-color: rgba(0,0,0,.5);
-	margin: 10px 0;
+  color: $variable;
+  background-color: rgba(0,0,0,.5);
+  margin: 10px 0;
 
   &:after {
     content: ''; // This is a special circumstance comment
@@ -136,26 +135,23 @@ $variable: #000;
 }
 
 .element__child {
-  border: 2px solid #a1b2c3;
+  border: 2px solid $variable;
 }
 
 // Headlines
 .h1,
 .h2,
 .h3 {
-	font-size: 24px;
+  font-size: 24px;
   line-height: 1.2;
 }
 ```
-
-**Note:** Included is a .scss-lint.yml file that you can add to your build and editor.
-
 
 
 ## Class Naming Conventions
 
 * Separate words in a class name with a single `-` (hyphen)
-* Never use a single `\_` (underscore) to separate words in a class name
+* Never use a single `_` (underscore) to separate words in a class name
 * Never use camel-casing in class names
 * Always be descriptive when choosing your class name `class="button"`
 * Never abbreviate common names like button, header, footer, etc. **Bad:** `btn, hdr, ftr`
@@ -163,11 +159,21 @@ $variable: #000;
 
 ```CSS
 .menu {
-	...
+  ...
 }
 
 .menu.is-open {
-	...
+  ...
+}
+```
+
+```SCSS
+.menu {
+  ...
+
+  &.is-open {
+    ...
+  }
 }
 ```
 
@@ -176,40 +182,80 @@ $variable: #000;
 
 BEM, or Block Element Modifier is a methodology, that helps you to achieve reusable components and code sharing in the front-end.
 
-* Bullets coming soon...
+* Never shorthand your nested BEM selectors
 
-```CSS
+```SCSS
+// Bad
+.element {
+  ...
+
+  &__child {
+    ...
+  }
+
+  &--modifier {
+    ...
+  }
+}
+
+// Good
+.element {
+  ...
+}
+
+.element__child {
+  ...
+}
+
+.element--modifier {
+  ...
+}
+```
+
+**Example:**
+```SCSS
+// General styles
 .form {}
-.form--signup {}
-.form__input {}
-.form__input--select {}
-.form__submit {}
+.input {}
+.input--text {}
+.input--select {}
+.input--textarea {}
+.button--submit {}
+
+// Styles specific to this form
+.signup-form {}
+.signup-form__input {}
+.signup-form__select {}
+.signup-form__textarea {}
 ```
 
 ```HTML
-<form class="form form--signup" action="" method="">
-  <input class="form__input" type="text">
-  <select class="form__input--select">
-    <option></option>
-    <option></option>
+<form class="form signup-form" action="" method="">
+  <input class="input input--text signup-form__input" type="text">
+  <select class="input input--select signup-form__select">
+    <option class="signup-form__option"></option>
+    <option class="signup-form__option"></option>
   </select>
-  <input class="form__submit" type="submit" value="Submit">
+  <textarea class="input input--textarea signup-form__textarea"></textarea>
+  <input class="button button--submit signup-form__submit" type="submit" value="Submit">
 </form>
 ```
 
-**Reference:** http://getbem.com/naming/
+**References:**
+* http://getbem.com/naming/
+* http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/
 
 
 
-## Pixels vs Ems
+## Pixels vs Ems/Rems
 
 * Always use `px` for font-size
 * Always use unit-less value for line-height, unless you are vertically centering single-line text
 
 ```CSS
 .element {
-	font-size: 16px;
-	line-height: 2;
+  font-size: 16px;
+  line-height: 2;
 }
 ```
 
@@ -222,12 +268,12 @@ BEM, or Block Element Modifier is a methodology, that helps you to achieve reusa
 
 ```HTML
 <div class="button button--primary js-menu-button">
-	...
+  ...
 </div>
 
 <select class="input input--select js-date-picker">
-	<option>option</option>
-	<option>option</option>
+  <option>option</option>
+  <option>option</option>
 </select>
 ```
 
